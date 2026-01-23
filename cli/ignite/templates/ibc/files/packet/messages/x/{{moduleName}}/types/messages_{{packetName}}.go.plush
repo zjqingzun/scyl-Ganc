@@ -1,0 +1,17 @@
+package types
+
+func NewMsgSend<%= packetName.PascalCase %>(
+    <%= MsgSigner.LowerCamel %> string,
+    port string,
+    channelID string,
+    timeoutTimestamp uint64,<%= for (field) in fields { %>
+    <%= field.Name.LowerCamel %> <%= field.DataType() %>,<% } %>
+) *MsgSend<%= packetName.PascalCase %> {
+    return &MsgSend<%= packetName.PascalCase %>{
+		<%= MsgSigner.UpperCamel %>: <%= MsgSigner.LowerCamel %>,
+		Port: port,
+		ChannelID: channelID,
+		TimeoutTimestamp: timeoutTimestamp,<%= for (field) in fields { %>
+        <%= field.Name.UpperCamel %>: <%= field.Name.LowerCamel %>,<% } %>
+	}
+}

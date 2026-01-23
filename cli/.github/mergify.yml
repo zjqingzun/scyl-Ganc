@@ -1,0 +1,33 @@
+queue_rules:
+  - name: default
+    queue_conditions:
+      - "#approved-reviews-by>1"
+      - base=main
+    merge_conditions:
+      - "#approved-reviews-by>1"
+    merge_method: squash
+    commit_message_template: |
+      {{ title }} (#{{ number }})
+      {{ body }}
+
+pull_request_rules:
+  - name: backport patches to v28.x.y branch
+    conditions:
+      - base=main
+      - label=backport/v28.x.y
+    actions:
+      backport:
+        branches:
+          - release/v28.x.y
+  - name: backport patches to v29.x.y branch
+    conditions:
+      - base=main
+      - label=backport/v29.x.y
+    actions:
+      backport:
+        branches:
+          - release/v29.x.y
+  - name: refactored queue action rule
+    conditions: []
+    actions:
+      queue:

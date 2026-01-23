@@ -1,0 +1,71 @@
+run:
+  tests: false
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - copyloopvar
+    - decorder
+    - depguard
+    - dogsled
+    - dupword
+    - errcheck
+    - errchkjson
+    - errorlint
+    - exhaustive
+    - gci
+    - goconst
+    - gocritic
+    - godot
+    - gofumpt
+    - revive
+    - gosec
+    - gosimple
+    - govet
+    - grouper
+    - ineffassign
+    - misspell
+    - nakedret
+    - nolintlint
+    - staticcheck
+    - reassign
+    - stylecheck
+    - typecheck
+    - unconvert
+    - usetesting
+    - thelper
+    - unused
+    - unparam
+    - misspell
+    - forbidigo
+
+linters-settings:
+  gci:
+    custom-order: true
+    sections:
+      - standard # Standard section: captures all standard packages.
+      - default # Default section: contains all imports that could not be matched to another section type.
+      - prefix(cosmossdk.io)
+      - prefix(github.com/cosmos/cosmos-sdk)
+      - prefix(github.com/cosmos/ibc-go
+      - prefix(github.com/cometbft/cometbft)
+      - prefix(github.com/ignite/cli)
+  forbidigo:
+    forbid:
+      - p: ^fmt\.Errorf$
+        msg: fmt.Errorf should be replaced by '"github.com/ignite/cli/ignite/pkg/errors"'
+  depguard:
+    rules:
+      main:
+        deny:
+          - pkg: "errors"
+            desc: Should be replaced by '"github.com/ignite/cli/ignite/pkg/errors"'
+          - pkg: "github.com/pkg/errors"
+            desc: Should be replaced by '"github.com/ignite/cli/ignite/pkg/errors"'
+
+issues:
+  exclude-dirs:
+    - ignite/ui
+  max-issues-per-linter: 0
+  max-same-issues: 0

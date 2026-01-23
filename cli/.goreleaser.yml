@@ -1,0 +1,11 @@
+project_name: ignite
+builds:
+  - main: ./ignite/cmd/ignite
+    ldflags:
+      - -s -w -X github.com/ignite/cli/v28/ignite/version.Version={{.Tag}} # bump to v29? check which action is ran on tagging
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
