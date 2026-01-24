@@ -7,7 +7,7 @@ import (
 
 	"ob/x/dex/types"
 
-	"cosmossdk.io/math" // Thêm cái này
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -46,7 +46,6 @@ func (k Keeper) MatchOrders(goCtx context.Context, newOrder *types.Order, orderI
 		return candidateOrders[i].Price < candidateOrders[j].Price
 	})
 
-	// SỬA TẠI ĐÂY: Dùng math.NewIntFromString
 	newRemaining, ok := math.NewIntFromString(newOrder.Remaining)
 	if !ok { newRemaining = math.ZeroInt() }
 
@@ -57,7 +56,6 @@ func (k Keeper) MatchOrders(goCtx context.Context, newOrder *types.Order, orderI
 		makerRemaining, ok := math.NewIntFromString(makerOrder.Remaining)
 		if !ok { continue }
 
-		// SỬA TẠI ĐÂY: Dùng math.MinInt
 		matchQty := math.MinInt(newRemaining, makerRemaining)
 
 		newRemaining = newRemaining.Sub(matchQty)

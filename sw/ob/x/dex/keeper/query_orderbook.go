@@ -17,10 +17,6 @@ func (q queryServer) ListOrderbook(ctx context.Context, req *types.QueryAllOrder
         return nil, status.Error(codes.InvalidArgument, "invalid request")
     }
 
-    // Nếu bạn muốn lọc chỉ lấy của 1 Market (giả sử req có field MarketId)
-    // Bạn có thể dùng q.k.Orderbook.Iterate với Prefix.
-    // Nhưng hiện tại để test list-all, logic của bạn đã ổn.
-
     orderbooks, pageRes, err := query.CollectionPaginate(
         ctx,
         q.k.Orderbook,

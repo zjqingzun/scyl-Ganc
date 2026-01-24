@@ -18,7 +18,7 @@ func (k msgServer) RegisterPairs(goCtx context.Context, msg *types.MsgRegisterPa
 		Status:     "ACTIVE",
 	}
 
-	// Sử dụng k.Keeper
+	// Use k.Keeper
 	if err := k.Keeper.Market.Set(ctx, marketId, market); err != nil {
 		return nil, err
 	}
