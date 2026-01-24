@@ -1,0 +1,36 @@
+name: Release Binaries
+
+on:
+  release:
+    types: [ published ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  binary:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: go/src/github.com/ignite/cli
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.working-directory }}
+          fetch-depth: 0
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          workdir: ${{ env.working-directory }}
+          version: '~> v2'
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

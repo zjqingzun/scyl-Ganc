@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ignite/internal/tools/gen-mig-diffs
+go run .

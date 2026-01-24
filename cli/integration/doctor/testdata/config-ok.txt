@@ -1,0 +1,11 @@
+# Test fix config
+# config is OK
+exec $IGNITE doctor
+stdout 'config file OK'
+
+-- config.yml --
+version: 1
+-- go.mod --
+module github.com/ignite/cli
+
+go 1.20

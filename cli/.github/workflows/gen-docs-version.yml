@@ -1,0 +1,67 @@
+name: Docusaurus add version
+on:
+  release:
+    types: [published]
+
+jobs:
+  gen-docs-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: docs/node_modules
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+
+      - name: Install Dependencies
+        run: yarn install
+        working-directory: ./docs
+
+      - name: Skip beta versions
+        continue-on-error: false
+        run: |
+          VERSION=${{ github.ref_name }}
+          if [[ $VERSION == *beta* ]]; then
+            echo "Skipping beta version"
+            exit 1
+          fi
+
+      - name: Generate docusaurus docs for major version
+        run: |
+          VERSION=${{ github.ref_name }}
+          if [[ $VERSION == v0* ]]; then
+            # If version starts with v0, use the patch version
+            DOCUSAURUS_VERSION=${VERSION:1}
+          else
+            # Otherwise, use the major version
+            MAJOR_VERSION=${VERSION%%.*}
+            DOCUSAURUS_VERSION=${MAJOR_VERSION:1}
+          fi
+
+          jq --arg version "v$DOCUSAURUS_VERSION" 'del(.[] | select(. == $version))' versions.json > versions.json.tmp
+          mv versions.json.tmp versions.json
+          rm -rf versioned_docs/version-v$DOCUSAURUS_VERSION
+          rm -rf versioned_sidebars/version-v$DOCUSAURUS_VERSION-sidebars.json
+          yarn run docusaurus docs:version v$DOCUSAURUS_VERSION
+        working-directory: ./docs
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: "chore: docusaurus deploy version ${{ github.ref_name }}"
+          commit-message: "chore(docs): deploy version ${{ github.ref_name }}"
+          body: ""
+          base: main
+          branch: chore/docs/new-version
+          add-paths: |
+            docs/

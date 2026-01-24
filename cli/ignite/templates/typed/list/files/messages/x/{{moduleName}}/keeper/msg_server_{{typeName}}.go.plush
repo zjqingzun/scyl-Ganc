@@ -1,0 +1,100 @@
+package keeper
+
+import (
+    "fmt"
+	"context"
+
+    "<%= ModulePath %>/x/<%= ModuleName %>/types"
+	errorsmod "cosmossdk.io/errors"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
+
+func (k msgServer) Create<%= TypeName.PascalCase %>(ctx context.Context,  msg *types.MsgCreate<%= TypeName.PascalCase %>) (*types.MsgCreate<%= TypeName.PascalCase %>Response, error) {
+    if _, err := k.addressCodec.StringToBytes(msg.<%= MsgSigner.UpperCamel %>); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
+    }
+
+    nextId, err := k.<%= TypeName.UpperCamel %>Seq.Next(ctx)
+	if err != nil {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "failed to get next id")
+	}
+
+    var <%= TypeName.LowerCamel %> = types.<%= TypeName.PascalCase %>{
+        Id: nextId,
+        <%= MsgSigner.UpperCamel %>: msg.<%= MsgSigner.UpperCamel %>,<%= for (field) in Fields { %>
+        <%= field.Name.UpperCamel %>: msg.<%= field.Name.UpperCamel %>,<% } %>
+    }
+
+    if err = k.<%= TypeName.UpperCamel %>.Set(
+        ctx,
+        nextId,
+        <%= TypeName.LowerCamel %>,
+    ); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "failed to set <%= TypeName.LowerCamel %>")
+    }
+
+	return &types.MsgCreate<%= TypeName.PascalCase %>Response{
+	    Id: nextId,
+	}, nil
+}
+
+func (k msgServer) Update<%= TypeName.PascalCase %>(ctx context.Context,  msg *types.MsgUpdate<%= TypeName.PascalCase %>) (*types.MsgUpdate<%= TypeName.PascalCase %>Response, error) {
+    if _, err := k.addressCodec.StringToBytes(msg.<%= MsgSigner.UpperCamel %>); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
+    }
+
+    var <%= TypeName.LowerCamel %> = types.<%= TypeName.PascalCase %>{
+		<%= MsgSigner.UpperCamel %>: msg.<%= MsgSigner.UpperCamel %>,
+		Id:      msg.Id,<%= for (field) in Fields { %>
+    	<%= field.Name.UpperCamel %>: msg.<%= field.Name.UpperCamel %>,<% } %>
+	}
+
+    // Checks that the element exists
+    val, err := k.<%= TypeName.UpperCamel %>.Get(ctx, msg.Id)
+    if err != nil {
+        if errors.Is(err, collections.ErrNotFound) {
+			return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		}
+
+        return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "failed to get <%= TypeName.LowerCamel %>")
+    }
+
+    // Checks if the msg <%= MsgSigner.LowerCamel %> is the same as the current owner
+    if msg.<%= MsgSigner.UpperCamel %> != val.<%= MsgSigner.UpperCamel %> {
+        return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+    }
+
+	if err := k.<%= TypeName.UpperCamel %>.Set(ctx, msg.Id, <%= TypeName.LowerCamel %>); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "failed to update <%= TypeName.LowerCamel %>")
+    }
+
+	return &types.MsgUpdate<%= TypeName.PascalCase %>Response{}, nil
+}
+
+func (k msgServer) Delete<%= TypeName.PascalCase %>(ctx context.Context,  msg *types.MsgDelete<%= TypeName.PascalCase %>) (*types.MsgDelete<%= TypeName.PascalCase %>Response, error) {
+    if _, err := k.addressCodec.StringToBytes(msg.<%= MsgSigner.UpperCamel %>); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
+    }
+
+    // Checks that the element exists
+    val, err := k.<%= TypeName.UpperCamel %>.Get(ctx, msg.Id)
+    if err != nil {
+        if errors.Is(err, collections.ErrNotFound) {
+			return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		}
+
+        return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "failed to get <%= TypeName.LowerCamel %>")
+    }
+
+    // Checks if the msg <%= MsgSigner.LowerCamel %> is the same as the current owner
+    if msg.<%= MsgSigner.UpperCamel %> != val.<%= MsgSigner.UpperCamel %> {
+        return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+    }
+
+	if err := k.<%= TypeName.UpperCamel %>.Remove(ctx, msg.Id); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "failed to delete <%= TypeName.LowerCamel %>")
+    }
+
+	return &types.MsgDelete<%= TypeName.PascalCase %>Response{}, nil
+}

@@ -1,0 +1,50 @@
+package keeper
+
+import (
+	"context"
+	
+	"cosmossdk.io/collections"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
+	"<%= ModulePath %>/x/<%= ModuleName %>/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
+
+func (q queryServer) List<%= TypeName.PascalCase %>(ctx context.Context, req *types.QueryAll<%= TypeName.PascalCase %>Request) (*types.QueryAll<%= TypeName.PascalCase %>Response, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	<%= TypeName.LowerCamel %>s, pageRes, err := query.CollectionPaginate(
+		ctx,
+		q.k.<%= TypeName.UpperCamel %>,
+		req.Pagination,
+		func(_ uint64, value types.<%= TypeName.PascalCase %>) (types.<%= TypeName.PascalCase %>, error){
+			return value, nil
+		},
+	)
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryAll<%= TypeName.PascalCase %>Response{<%= TypeName.UpperCamel %>: <%= TypeName.LowerCamel %>s, Pagination: pageRes}, nil
+}
+
+func (q queryServer) Get<%= TypeName.PascalCase %>(ctx context.Context, req *types.QueryGet<%= TypeName.PascalCase %>Request) (*types.QueryGet<%= TypeName.PascalCase %>Response, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	<%= TypeName.LowerCamel %>, err := q.k.<%= TypeName.UpperCamel %>.Get(ctx, req.Id)
+	if err != nil {
+		if errors.Is(err, collections.ErrNotFound) {
+			return nil, sdkerrors.ErrKeyNotFound
+		}
+
+		return nil, status.Error(codes.Internal, "internal error")
+	}
+
+	return &types.QueryGet<%= TypeName.PascalCase %>Response{<%= TypeName.UpperCamel %>: <%= TypeName.LowerCamel %>}, nil
+}

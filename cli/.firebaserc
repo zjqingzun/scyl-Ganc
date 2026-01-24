@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "igntservices"
+  },
+  "targets": {
+    "igntservices": {
+      "hosting": {
+        "docs.ignite.com": [
+          "igntservices-docs"
+        ]
+      }
+    }
+  }
+}

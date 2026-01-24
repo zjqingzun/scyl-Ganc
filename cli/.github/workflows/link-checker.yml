@@ -1,0 +1,22 @@
+name: Check links
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - release/*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gaurav-nelson/github-action-markdown-link-check@1.0.16
+        with:
+          folder-path: "."
+          use-verbose-mode: "yes"
+          config-file: ".github/workflows/link-checker-config.json"

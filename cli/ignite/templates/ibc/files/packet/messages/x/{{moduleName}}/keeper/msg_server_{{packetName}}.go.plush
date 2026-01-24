@@ -1,0 +1,54 @@
+package keeper
+
+import (
+    "fmt"
+	"context"
+
+	errorsmod "cosmossdk.io/errors"
+    "<%= ModulePath %>/x/<%= moduleName %>/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	clienttypes "github.com/cosmos/ibc-go/v10/modules/core/02-client/types"
+)
+
+
+func (k msgServer) Send<%= packetName.PascalCase %>(ctx context.Context,  msg *types.MsgSend<%= packetName.PascalCase %>) (*types.MsgSend<%= packetName.PascalCase %>Response, error) {
+    // validate incoming message
+    if _, err := k.addressCodec.StringToBytes(msg.<%= MsgSigner.PascalCase %>); err != nil {
+        return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
+    }
+
+	if msg.Port == "" {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid packet port")
+	}
+	
+    if msg.ChannelID == "" {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid packet channel")
+	}
+
+	if msg.TimeoutTimestamp == 0 {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid packet timeout")
+	}
+
+    // TODO: logic before transmitting the packet
+
+    // Construct the packet
+    var packet types.<%= packetName.PascalCase %>PacketData
+    <%= for (field) in fields { %>
+    packet.<%= field.Name.UpperCamel %> = msg.<%= field.Name.UpperCamel %><% } %>
+
+    // Transmit the packet
+    _, err := k.Transmit<%= packetName.PascalCase %>Packet(
+        ctx,
+        packet,
+        msg.Port,
+        msg.ChannelID,
+        clienttypes.ZeroHeight(),
+        msg.TimeoutTimestamp,
+    )
+    if err != nil {
+        return nil, err
+    }
+
+	return &types.MsgSend<%= packetName.PascalCase %>Response{}, nil
+}

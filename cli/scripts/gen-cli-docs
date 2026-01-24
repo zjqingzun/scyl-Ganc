@@ -1,0 +1,3 @@
+#!/bin/bash
+
+go run ignite/internal/tools/gen-cli-docs/*.go --out docs/docs/03-CLI-Commands/01-cli-commands.md 

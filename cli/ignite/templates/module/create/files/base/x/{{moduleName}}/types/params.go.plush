@@ -1,0 +1,41 @@
+package types
+
+<%= for (param) in params { %>
+	// Default<%= param.Name.UpperCamel %> represents the <%= param.Name.UpperCamel %> default value.
+	// TODO: Determine the default value.
+	var Default<%= param.Name.UpperCamel %> <%= param.DataType() %> = <%= if (param.DataType() == "string") { %>"<%= param.ProtoFieldName() %>"<% } else { %><%= param.ValueIndex() %><% } %>
+<% } %>
+
+// NewParams creates a new Params instance.
+func NewParams(<%= for (param) in params { %>
+	<%= param.Name.LowerCamel %> <%= param.DataType() %>,<% } %>
+) Params {
+	return Params{<%= for (param) in params { %>
+        <%= param.Name.UpperCamel %>: <%= param.Name.LowerCamel %>,<% } %>
+	}
+}
+
+// DefaultParams returns a default set of parameters.
+func DefaultParams() Params {
+	return NewParams(<%= for (param) in params { %>
+        Default<%= param.Name.UpperCamel %>,<% } %>
+	)
+}
+
+// Validate validates the set of params.
+func (p Params) Validate() error {<%= for (param) in params { %>
+   	if err := validate<%= param.Name.UpperCamel %>(p.<%= param.Name.UpperCamel %>); err != nil {
+   		return err
+   	}
+   	<% } %>
+
+	return nil
+}
+
+<%= for (param) in params { %>
+// validate<%= param.Name.UpperCamel %> validates the <%= param.Name.UpperCamel %> parameter.
+func validate<%= param.Name.UpperCamel %>(v <%= param.DataType() %>) error {
+	// TODO implement validation
+	return nil
+}
+<% } %>

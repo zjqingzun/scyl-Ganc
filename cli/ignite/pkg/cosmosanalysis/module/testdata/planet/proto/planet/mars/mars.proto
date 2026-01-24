@@ -1,0 +1,52 @@
+syntax = "proto3";
+package tendermint.planet.mars;
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "google/api/annotations.proto";
+option go_package = "github.com/tendermint/planet/x/mars/types";
+
+service Msg {
+  rpc MyMessage(MsgMyMessageRequest) returns (MsgMyMessageResponse);
+
+  rpc Bar(MsgBarRequest) returns (MsgBarResponse);
+}
+
+message MsgMyMessageRequest {
+  string mytypefield = 1;
+}
+
+message MsgMyMessageResponse {
+  string mytypefield = 1;
+}
+
+message MsgBarRequest {
+  string mytypefield = 1;
+}
+
+message MsgBarResponse {
+  string mytypefield = 1;
+}
+
+service Query {
+  rpc MyQuery(QueryMyQueryRequest) returns (QueryMyQueryResponse) {
+    option (google.api.http).get = "/tendermint/mars/my_query/{mytypefield}";
+  }
+
+  rpc Foo(QueryFooRequest) returns (QueryFooResponse) {
+    option (google.api.http).get = "/tendermint/mars/foo";
+  }
+}
+
+message QueryMyQueryRequest {
+  string mytypefield = 1;
+	cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryMyQueryResponse {
+	cosmos.base.query.v1beta1.PageResponse pagination = 1;
+}
+
+message QueryFooRequest {}
+
+message QueryFooResponse {
+	string bar = 1;
+}
