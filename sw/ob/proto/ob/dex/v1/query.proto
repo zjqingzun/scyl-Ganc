@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package ob.dex.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "ob/dex/v1/market.proto";
+import "ob/dex/v1/order.proto";
+import "ob/dex/v1/orderbook.proto";
+import "ob/dex/v1/params.proto";
+
+option go_package = "ob/x/dex/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/ob/dex/v1/params";
+  }
+
+  // ListMarket Queries a list of Market items.
+  rpc GetMarket(QueryGetMarketRequest) returns (QueryGetMarketResponse) {
+    option (google.api.http).get = "/ob/dex/v1/market/{index}";
+  }
+
+  // ListMarket defines the ListMarket RPC.
+  rpc ListMarket(QueryAllMarketRequest) returns (QueryAllMarketResponse) {
+    option (google.api.http).get = "/ob/dex/v1/market";
+  }
+
+  // ListOrder Queries a list of Order items.
+  rpc GetOrder(QueryGetOrderRequest) returns (QueryGetOrderResponse) {
+    option (google.api.http).get = "/ob/dex/v1/order/{index}";
+  }
+
+  // ListOrder defines the ListOrder RPC.
+  rpc ListOrder(QueryAllOrderRequest) returns (QueryAllOrderResponse) {
+    option (google.api.http).get = "/ob/dex/v1/order";
+  }
+
+  // ListOrderbook Queries a list of Orderbook items.
+  rpc GetOrderbook(QueryGetOrderbookRequest) returns (QueryGetOrderbookResponse) {
+    option (google.api.http).get = "/ob/dex/v1/orderbook/{index}";
+  }
+
+  // ListOrderbook defines the ListOrderbook RPC.
+  rpc ListOrderbook(QueryAllOrderbookRequest) returns (QueryAllOrderbookResponse) {
+    option (google.api.http).get = "/ob/dex/v1/orderbook";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// QueryGetMarketRequest defines the QueryGetMarketRequest message.
+message QueryGetMarketRequest {
+  string index = 1;
+}
+
+// QueryGetMarketResponse defines the QueryGetMarketResponse message.
+message QueryGetMarketResponse {
+  Market market = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllMarketRequest defines the QueryAllMarketRequest message.
+message QueryAllMarketRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllMarketResponse defines the QueryAllMarketResponse message.
+message QueryAllMarketResponse {
+  repeated Market market = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetOrderRequest defines the QueryGetOrderRequest message.
+message QueryGetOrderRequest {
+  string index = 1;
+}
+
+// QueryGetOrderResponse defines the QueryGetOrderResponse message.
+message QueryGetOrderResponse {
+  Order order = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllOrderRequest defines the QueryAllOrderRequest message.
+message QueryAllOrderRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllOrderResponse defines the QueryAllOrderResponse message.
+message QueryAllOrderResponse {
+  repeated Order order = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetOrderbookRequest defines the QueryGetOrderbookRequest message.
+message QueryGetOrderbookRequest {
+  string index = 1;
+}
+
+// QueryGetOrderbookResponse defines the QueryGetOrderbookResponse message.
+message QueryGetOrderbookResponse {
+  Orderbook orderbook = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllOrderbookRequest defines the QueryAllOrderbookRequest message.
+message QueryAllOrderbookRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllOrderbookResponse defines the QueryAllOrderbookResponse message.
+message QueryAllOrderbookResponse {
+  repeated Orderbook orderbook = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

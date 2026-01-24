@@ -1,0 +1,19 @@
+syntax = "proto3";
+package ob.dex.v1;
+
+option go_package = "ob/x/dex/types";
+
+// Order defines the Order message.
+message Order {
+  string index = 1;
+  string market_id = 2;
+  string order_type = 3;
+  string side = 4;
+  string price = 5;
+  string quantity = 6;
+  string remaining = 7;
+  string created_at = 8;
+  string created_height = 9;
+  string status = 10;
+  string creator = 11;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ob.dex.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "ob/dex/v1/market.proto";
+import "ob/dex/v1/order.proto";
+import "ob/dex/v1/orderbook.proto";
+import "ob/dex/v1/params.proto";
+
+option go_package = "ob/x/dex/types";
+
+// GenesisState defines the dex module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  repeated Market market_map = 2 [(gogoproto.nullable) = false];
+  repeated Order order_map = 3 [(gogoproto.nullable) = false];
+  repeated Orderbook orderbook_map = 4 [(gogoproto.nullable) = false];
+}

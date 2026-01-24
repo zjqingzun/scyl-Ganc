@@ -1,0 +1,13 @@
+syntax = "proto3";
+package ob.dex.v1;
+
+option go_package = "ob/x/dex/types";
+
+// Orderbook defines the Orderbook message.
+message Orderbook {
+  string index = 1;
+  string market_id = 2;
+  string side = 3;
+  string price = 4;
+  string order_id = 5;
+}

@@ -1,0 +1,238 @@
+syntax = "proto3";
+
+package ob.dex.v1;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "ob/dex/v1/params.proto";
+
+option go_package = "ob/x/dex/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // CreateMarket defines the CreateMarket RPC.
+  rpc CreateMarket(MsgCreateMarket) returns (MsgCreateMarketResponse);
+
+  // UpdateMarket defines the UpdateMarket RPC.
+  rpc UpdateMarket(MsgUpdateMarket) returns (MsgUpdateMarketResponse);
+
+  // DeleteMarket defines the DeleteMarket RPC.
+  rpc DeleteMarket(MsgDeleteMarket) returns (MsgDeleteMarketResponse);
+
+  // CreateOrder defines the CreateOrder RPC.
+  rpc CreateOrder(MsgCreateOrder) returns (MsgCreateOrderResponse);
+
+  // UpdateOrder defines the UpdateOrder RPC.
+  rpc UpdateOrder(MsgUpdateOrder) returns (MsgUpdateOrderResponse);
+
+  // DeleteOrder defines the DeleteOrder RPC.
+  rpc DeleteOrder(MsgDeleteOrder) returns (MsgDeleteOrderResponse);
+
+  // RegisterPairs defines the RegisterPairs RPC.
+  rpc RegisterPairs(MsgRegisterPairs) returns (MsgRegisterPairsResponse);
+
+  // PlaceOrder defines the PlaceOrder RPC.
+  rpc PlaceOrder(MsgPlaceOrder) returns (MsgPlaceOrderResponse);
+
+  // CancelOrder defines the CancelOrder RPC.
+  rpc CancelOrder(MsgCancelOrder) returns (MsgCancelOrderResponse);
+
+  // RegisterContract defines the RegisterContract RPC.
+  rpc RegisterContract(MsgRegisterContract) returns (MsgRegisterContractResponse);
+
+  // UnregisterContract defines the UnregisterContract RPC.
+  rpc UnregisterContract(MsgUnregisterContract) returns (MsgUnregisterContractResponse);
+
+  // ContractDepositRent defines the ContractDepositRent RPC.
+  rpc ContractDepositRent(MsgContractDepositRent) returns (MsgContractDepositRentResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "ob/x/dex/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless overwritten).
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+// MsgCreateMarket defines the MsgCreateMarket message.
+message MsgCreateMarket {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+  string base_denom = 3;
+  string quote_denom = 4;
+  string tick_size = 5;
+  string lot_size = 6;
+  string status = 7;
+}
+
+// MsgCreateMarketResponse defines the MsgCreateMarketResponse message.
+message MsgCreateMarketResponse {}
+
+// MsgUpdateMarket defines the MsgUpdateMarket message.
+message MsgUpdateMarket {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+  string base_denom = 3;
+  string quote_denom = 4;
+  string tick_size = 5;
+  string lot_size = 6;
+  string status = 7;
+}
+
+// MsgUpdateMarketResponse defines the MsgUpdateMarketResponse message.
+message MsgUpdateMarketResponse {}
+
+// MsgDeleteMarket defines the MsgDeleteMarket message.
+message MsgDeleteMarket {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+}
+
+// MsgDeleteMarketResponse defines the MsgDeleteMarketResponse message.
+message MsgDeleteMarketResponse {}
+
+// MsgCreateOrder defines the MsgCreateOrder message.
+message MsgCreateOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+  string market_id = 3;
+  string order_type = 4;
+  string side = 5;
+  string price = 6;
+  string quantity = 7;
+  string remaining = 8;
+  string created_at = 9;
+  string created_height = 10;
+  string status = 11;
+}
+
+// MsgCreateOrderResponse defines the MsgCreateOrderResponse message.
+message MsgCreateOrderResponse {}
+
+// MsgUpdateOrder defines the MsgUpdateOrder message.
+message MsgUpdateOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+  string market_id = 3;
+  string order_type = 4;
+  string side = 5;
+  string price = 6;
+  string quantity = 7;
+  string remaining = 8;
+  string created_at = 9;
+  string created_height = 10;
+  string status = 11;
+}
+
+// MsgUpdateOrderResponse defines the MsgUpdateOrderResponse message.
+message MsgUpdateOrderResponse {}
+
+// MsgDeleteOrder defines the MsgDeleteOrder message.
+message MsgDeleteOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 2;
+}
+
+// MsgDeleteOrderResponse defines the MsgDeleteOrderResponse message.
+message MsgDeleteOrderResponse {}
+
+// MsgRegisterPairs defines the MsgRegisterPairs message.
+message MsgRegisterPairs {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string base_denom = 2;
+  string quote_denom = 3;
+  string tick_size = 4;
+  string lot_size = 5;
+}
+
+// MsgRegisterPairsResponse defines the MsgRegisterPairsResponse message.
+message MsgRegisterPairsResponse {
+  string id = 1;
+}
+
+// MsgPlaceOrder defines the MsgPlaceOrder message.
+message MsgPlaceOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string market_id = 2;
+  string side = 3;
+  string price = 4;
+  string quantity = 5;
+  string orderType = 6;
+}
+
+// MsgPlaceOrderResponse defines the MsgPlaceOrderResponse message.
+message MsgPlaceOrderResponse {
+  string order_id = 1;
+}
+
+// MsgCancelOrder defines the MsgCancelOrder message.
+message MsgCancelOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string order_id = 2;
+}
+
+// MsgCancelOrderResponse defines the MsgCancelOrderResponse message.
+message MsgCancelOrderResponse {}
+
+// MsgRegisterContract defines the MsgRegisterContract message.
+message MsgRegisterContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string market_id = 2;
+  string contract_addr = 3;
+}
+
+// MsgRegisterContractResponse defines the MsgRegisterContractResponse message.
+message MsgRegisterContractResponse {}
+
+// MsgUnregisterContract defines the MsgUnregisterContract message.
+message MsgUnregisterContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string contract_addr = 2;
+}
+
+// MsgUnregisterContractResponse defines the MsgUnregisterContractResponse message.
+message MsgUnregisterContractResponse {}
+
+// MsgContractDepositRent defines the MsgContractDepositRent message.
+message MsgContractDepositRent {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string contract_addr = 2;
+  string amount = 3;
+}
+
+// MsgContractDepositRentResponse defines the MsgContractDepositRentResponse message.
+message MsgContractDepositRentResponse {}
