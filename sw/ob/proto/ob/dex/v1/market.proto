@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ob.dex.v1;
+
+option go_package = "ob/x/dex/types";
+
+// Market defines the Market message.
+message Market {
+  string index = 1;
+  string base_denom = 2;
+  string quote_denom = 3;
+  string tick_size = 4;
+  string lot_size = 5;
+  string status = 6;
+  string creator = 7;
+}

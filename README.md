@@ -31,7 +31,7 @@ ignite chain serve -r
 ```bash
 # Open a new terminal
 cd sw/ob
-obd --help
+obd tx dex --help
 ```
 
 

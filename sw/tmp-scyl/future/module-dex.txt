@@ -1,0 +1,21 @@
+## Classic
+bank
+auth
+
+
+# Other module
+staking
+distr
+gov
+
+evidence
+slashing
+feegrant
+
+
+# Development
+epochs
+band
+mint
+
+
