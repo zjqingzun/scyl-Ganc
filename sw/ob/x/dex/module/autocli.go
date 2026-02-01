@@ -113,28 +113,10 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "market_id"}, {ProtoField: "side"}, {ProtoField: "price"}, {ProtoField: "quantity"}},
 				},
 				{
-					RpcMethod:      "CancelOrder",
-					Use:            "cancel-order [order-id]",
-					Short:          "Send a cancelOrder tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "order_id"}},
-				},
-				{
-					RpcMethod:      "RegisterContract",
-					Use:            "register-contract [market-id] [contract-addr]",
-					Short:          "Send a registerContract tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "market_id"}, {ProtoField: "contract_addr"}},
-				},
-				{
-					RpcMethod:      "UnregisterContract",
-					Use:            "unregister-contract [contract-addr]",
-					Short:          "Send a unregisterContract tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contract_addr"}},
-				},
-				{
-					RpcMethod:      "ContractDepositRent",
-					Use:            "contract-deposit-rent [contract-addr] [amount]",
-					Short:          "Send a contractDepositRent tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contract_addr"}, {ProtoField: "amount"}},
+					RpcMethod:      "CleanOrders",
+					Use:            "clean-orders [limit]",
+					Short:          "Send a cleanOrders tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "limit"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

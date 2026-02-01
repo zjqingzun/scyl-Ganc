@@ -138,6 +138,18 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(_ context.Context) error {
-	return nil
+// Origin: 
+// func (am AppModule) EndBlock(_ context.Context) error {
+// 	return nil
+// }
+func (am AppModule) EndBlock(goCtx context.Context) error {
+    ctx := sdk.UnwrapSDKContext(goCtx)
+
+    deletedCount := am.keeper.BatchCleanFilledOrders(ctx, 5)
+
+    if deletedCount > 0 {
+        ctx.Logger().Info("[EndBlock]		Order Cleanup ... ", "deleted_count", deletedCount)
+    }
+
+    return nil
 }

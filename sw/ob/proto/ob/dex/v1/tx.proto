@@ -42,17 +42,8 @@ service Msg {
   // PlaceOrder defines the PlaceOrder RPC.
   rpc PlaceOrder(MsgPlaceOrder) returns (MsgPlaceOrderResponse);
 
-  // CancelOrder defines the CancelOrder RPC.
-  rpc CancelOrder(MsgCancelOrder) returns (MsgCancelOrderResponse);
-
-  // RegisterContract defines the RegisterContract RPC.
-  rpc RegisterContract(MsgRegisterContract) returns (MsgRegisterContractResponse);
-
-  // UnregisterContract defines the UnregisterContract RPC.
-  rpc UnregisterContract(MsgUnregisterContract) returns (MsgUnregisterContractResponse);
-
-  // ContractDepositRent defines the ContractDepositRent RPC.
-  rpc ContractDepositRent(MsgContractDepositRent) returns (MsgContractDepositRentResponse);
+  // CleanOrders defines the CleanOrders RPC.
+  rpc CleanOrders(MsgCleanOrders) returns (MsgCleanOrdersResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -195,44 +186,14 @@ message MsgPlaceOrderResponse {
   string order_id = 1;
 }
 
-// MsgCancelOrder defines the MsgCancelOrder message.
-message MsgCancelOrder {
+// MsgCleanOrders defines the MsgCleanOrders message.
+message MsgCleanOrders {
   option (cosmos.msg.v1.signer) = "creator";
   string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string order_id = 2;
+  uint64 limit = 2;
 }
 
-// MsgCancelOrderResponse defines the MsgCancelOrderResponse message.
-message MsgCancelOrderResponse {}
-
-// MsgRegisterContract defines the MsgRegisterContract message.
-message MsgRegisterContract {
-  option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string market_id = 2;
-  string contract_addr = 3;
+// MsgCleanOrdersResponse defines the MsgCleanOrdersResponse message.
+message MsgCleanOrdersResponse {
+  uint64 count = 1;
 }
-
-// MsgRegisterContractResponse defines the MsgRegisterContractResponse message.
-message MsgRegisterContractResponse {}
-
-// MsgUnregisterContract defines the MsgUnregisterContract message.
-message MsgUnregisterContract {
-  option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string contract_addr = 2;
-}
-
-// MsgUnregisterContractResponse defines the MsgUnregisterContractResponse message.
-message MsgUnregisterContractResponse {}
-
-// MsgContractDepositRent defines the MsgContractDepositRent message.
-message MsgContractDepositRent {
-  option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string contract_addr = 2;
-  string amount = 3;
-}
-
-// MsgContractDepositRentResponse defines the MsgContractDepositRentResponse message.
-message MsgContractDepositRentResponse {}

@@ -28,10 +28,7 @@ ignite chain serve -r
 # ============= CUSTOMER =============
 ignite scaffold message registerPairs baseDenom:string quoteDenom:string tickSize:string lotSize:string --module dex --response id:string
 ignite scaffold message placeOrder marketId:string side:string price:string quantity:string --module dex --response orderId:string
-ignite scaffold message cancelOrder orderId:string --module dex
-ignite scaffold message registerContract marketId:string contractAddr:string --module dex
-ignite scaffold message unregisterContract contractAddr:string --module dex
-ignite scaffold message contractDepositRent contractAddr:string amount:string --module dex
+ignite scaffold message cleanOrders limit:uint --module dex
 
 ignite chain serve -r
 
