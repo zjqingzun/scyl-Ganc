@@ -8,19 +8,7 @@ import (
 
 func RegisterInterfaces(registrar codectypes.InterfaceRegistry) {
 	registrar.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgContractDepositRent{},
-	)
-
-	registrar.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUnregisterContract{},
-	)
-
-	registrar.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgRegisterContract{},
-	)
-
-	registrar.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCancelOrder{},
+		&MsgCleanOrders{},
 	)
 
 	registrar.RegisterImplementations((*sdk.Msg)(nil),

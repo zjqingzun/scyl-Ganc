@@ -12,7 +12,7 @@ import (
 	"ob/x/dex/types"
 )
 
-func SimulateMsgCancelOrder(
+func SimulateMsgCleanOrders(
 	ak types.AuthKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -21,12 +21,12 @@ func SimulateMsgCancelOrder(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
-		msg := &types.MsgCancelOrder{
+		msg := &types.MsgCleanOrders{
 			Creator: simAccount.Address.String(),
 		}
 
-		// TODO: Handle the CancelOrder simulation
+		// TODO: Handle the CleanOrders simulation
 
-		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "CancelOrder simulation not implemented"), nil, nil
+		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "CleanOrders simulation not implemented"), nil, nil
 	}
 }

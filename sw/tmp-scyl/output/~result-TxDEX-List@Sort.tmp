@@ -1,4 +1,4 @@
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd q dex list-market
+$ obd q dex list-market
 market:
 - base_denom: ATOM
   lot_size: "1"
@@ -10,7 +10,7 @@ pagination:
 
 
 
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd q dex list-order
+$ obd q dex list-order
 order:
 - created_at: "1769241433"
   created_height: "140"
@@ -57,7 +57,7 @@ pagination:
 
 
 
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd q dex list-orderbook
+$ obd q dex list-orderbook
 orderbook:
 - market_id: ATOM-USDT
   order_id: ATOM-USDT-140

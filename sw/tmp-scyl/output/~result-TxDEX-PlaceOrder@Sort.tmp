@@ -1,4 +1,4 @@
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd tx dex place-order ATOM-USDT BUY 12 100 --from alice -y
+$ obd tx dex place-order ATOM-USDT BUY 12 100 --from alice -y
 code: 0
 codespace: ""
 data: ""
@@ -15,7 +15,7 @@ txhash: 6DB3A355D6DEC07EB0689F3C718CA5AB8D2838620BDEF6991B990C9ADF8C63ED
 
 
 
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd tx dex place-order ATOM-USDT BUY 10 50 --from alice -y
+$ obd tx dex place-order ATOM-USDT BUY 10 50 --from alice -y
 code: 0
 codespace: ""
 data: ""
@@ -32,7 +32,7 @@ txhash: A90EABF552FB50F0ACDAA32D2BECBD59F9345D9B5862AB0BC115CA1470DE371A
 
 
 
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd tx dex place-order ATOM-USDT BUY 15 80 --from alice -y
+$ obd tx dex place-order ATOM-USDT BUY 15 80 --from alice -y
 code: 0
 codespace: ""
 data: ""

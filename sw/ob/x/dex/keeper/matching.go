@@ -28,12 +28,18 @@ func (k Keeper) MatchOrders(goCtx context.Context, newOrder *types.Order, orderI
 	var candidateOrders []types.Orderbook
 	for ; iter.Valid(); iter.Next() {
 		val, err := iter.Value()
-		if err != nil { continue }
+		if err != nil {
+			continue
+		}
 
 		if val.MarketId == newOrder.MarketId && val.Side == targetSide {
 			if newOrder.OrderType == "LIMIT" {
-				if newOrder.Side == "BUY" && val.Price > newOrder.Price { continue }
-				if newOrder.Side == "SELL" && val.Price < newOrder.Price { continue }
+				if newOrder.Side == "BUY" && val.Price > newOrder.Price {
+					continue
+				}
+				if newOrder.Side == "SELL" && val.Price < newOrder.Price {
+					continue
+				}
 			}
 			candidateOrders = append(candidateOrders, val)
 		}
@@ -47,14 +53,20 @@ func (k Keeper) MatchOrders(goCtx context.Context, newOrder *types.Order, orderI
 	})
 
 	newRemaining, ok := math.NewIntFromString(newOrder.Remaining)
-	if !ok { newRemaining = math.ZeroInt() }
+	if !ok {
+		newRemaining = math.ZeroInt()
+	}
 
 	for _, bookEntry := range candidateOrders {
-		if newRemaining.IsZero() { break }
+		if newRemaining.IsZero() {
+			break
+		}
 
 		makerOrder, _ := k.Order.Get(ctx, bookEntry.OrderId)
 		makerRemaining, ok := math.NewIntFromString(makerOrder.Remaining)
-		if !ok { continue }
+		if !ok {
+			continue
+		}
 
 		matchQty := math.MinInt(newRemaining, makerRemaining)
 
@@ -81,7 +93,7 @@ func (k Keeper) MatchOrders(goCtx context.Context, newOrder *types.Order, orderI
 	} else {
 		newOrder.Status = "PARTIAL"
 	}
-	
+
 	k.Order.Set(ctx, orderId, *newOrder)
 	return nil
 }

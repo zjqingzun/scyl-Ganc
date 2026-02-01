@@ -1,4 +1,4 @@
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd q dex list-orderbook
+$ obd q dex list-orderbook
 orderbook:
 - market_id: ATOM-USDT
   order_id: ATOM-USDT-229
@@ -13,7 +13,7 @@ pagination:
 
 
 
-@zjqingzun ➜ /workspaces/scyl-Ganc/sw/ob (appreciate) $ obd q dex list-order
+$ obd q dex list-order
 order:
 - created_at: "1769241523"
   created_height: "229"

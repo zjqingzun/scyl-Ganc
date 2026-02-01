@@ -159,64 +159,19 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		dexsimulation.SimulateMsgPlaceOrder(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
 	const (
-		opWeightMsgCancelOrder          = "op_weight_msg_dex"
-		defaultWeightMsgCancelOrder int = 100
+		opWeightMsgCleanOrders          = "op_weight_msg_dex"
+		defaultWeightMsgCleanOrders int = 100
 	)
 
-	var weightMsgCancelOrder int
-	simState.AppParams.GetOrGenerate(opWeightMsgCancelOrder, &weightMsgCancelOrder, nil,
+	var weightMsgCleanOrders int
+	simState.AppParams.GetOrGenerate(opWeightMsgCleanOrders, &weightMsgCleanOrders, nil,
 		func(_ *rand.Rand) {
-			weightMsgCancelOrder = defaultWeightMsgCancelOrder
+			weightMsgCleanOrders = defaultWeightMsgCleanOrders
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgCancelOrder,
-		dexsimulation.SimulateMsgCancelOrder(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
-	))
-	const (
-		opWeightMsgRegisterContract          = "op_weight_msg_dex"
-		defaultWeightMsgRegisterContract int = 100
-	)
-
-	var weightMsgRegisterContract int
-	simState.AppParams.GetOrGenerate(opWeightMsgRegisterContract, &weightMsgRegisterContract, nil,
-		func(_ *rand.Rand) {
-			weightMsgRegisterContract = defaultWeightMsgRegisterContract
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgRegisterContract,
-		dexsimulation.SimulateMsgRegisterContract(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
-	))
-	const (
-		opWeightMsgUnregisterContract          = "op_weight_msg_dex"
-		defaultWeightMsgUnregisterContract int = 100
-	)
-
-	var weightMsgUnregisterContract int
-	simState.AppParams.GetOrGenerate(opWeightMsgUnregisterContract, &weightMsgUnregisterContract, nil,
-		func(_ *rand.Rand) {
-			weightMsgUnregisterContract = defaultWeightMsgUnregisterContract
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgUnregisterContract,
-		dexsimulation.SimulateMsgUnregisterContract(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
-	))
-	const (
-		opWeightMsgContractDepositRent          = "op_weight_msg_dex"
-		defaultWeightMsgContractDepositRent int = 100
-	)
-
-	var weightMsgContractDepositRent int
-	simState.AppParams.GetOrGenerate(opWeightMsgContractDepositRent, &weightMsgContractDepositRent, nil,
-		func(_ *rand.Rand) {
-			weightMsgContractDepositRent = defaultWeightMsgContractDepositRent
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgContractDepositRent,
-		dexsimulation.SimulateMsgContractDepositRent(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+		weightMsgCleanOrders,
+		dexsimulation.SimulateMsgCleanOrders(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
 
 	return operations

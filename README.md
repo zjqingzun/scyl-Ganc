@@ -34,6 +34,13 @@ cd sw/ob
 obd tx dex --help
 ```
 
+#### Test Matching Orderbook
+```bash
+# Open a new terminal 
+cd sw/sh-scyl/test/
+bash order-matching@10S10B-empty-sort.sh
+```
+
 
 ## Contribution 
 *(update)*
