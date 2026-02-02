@@ -1,0 +1,17 @@
+syntax = "proto3";
+package ob.zproofs.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "ob/zproofs/v1/params.proto";
+
+option go_package = "ob/x/zproofs/types";
+
+// GenesisState defines the zproofs module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

@@ -19,11 +19,12 @@ func (k msgServer) CleanOrders(goCtx context.Context, msg *types.MsgCleanOrders)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	limit := msg.Limit
-	if limit > 500 { limit = 500 }
-	
+	if limit > 500 {
+		limit = 500
+	}
+
 	count := k.Keeper.BatchCleanFilledOrders(ctx, limit)
 
-	
 	return &types.MsgCleanOrdersResponse{Count: count}, nil
 	// return &types.MsgCleanOrdersResponse{}, nil
 }

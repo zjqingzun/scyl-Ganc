@@ -48,6 +48,7 @@ import (
 	"ob/docs"
 	dexmodulekeeper "ob/x/dex/keeper"
 	obmodulekeeper "ob/x/ob/keeper"
+	zproofsmodulekeeper "ob/x/zproofs/keeper"
 )
 
 const (
@@ -100,9 +101,10 @@ type App struct {
 	TransferKeeper      ibctransferkeeper.Keeper
 
 	// simulation manager
-	sm        *module.SimulationManager
-	ObKeeper  obmodulekeeper.Keeper
-	DexKeeper dexmodulekeeper.Keeper
+	sm            *module.SimulationManager
+	ObKeeper      obmodulekeeper.Keeper
+	DexKeeper     dexmodulekeeper.Keeper
+	ZproofsKeeper zproofsmodulekeeper.Keeper
 }
 
 func init() {
@@ -184,6 +186,7 @@ func New(
 		&app.ParamsKeeper,
 		&app.ObKeeper,
 		&app.DexKeeper,
+		&app.ZproofsKeeper,
 	); err != nil {
 		panic(err)
 	}
