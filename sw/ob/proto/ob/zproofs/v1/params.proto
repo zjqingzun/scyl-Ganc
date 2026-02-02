@@ -1,0 +1,13 @@
+syntax = "proto3";
+package ob.zproofs.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "ob/x/zproofs/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "ob/x/zproofs/Params";
+  option (gogoproto.equal) = true;
+}

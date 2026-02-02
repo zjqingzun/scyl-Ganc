@@ -5,6 +5,8 @@ import (
 	dexmoduletypes "ob/x/dex/types"
 	_ "ob/x/ob/module"
 	obmoduletypes "ob/x/ob/types"
+	_ "ob/x/zproofs/module"
+	zproofsmoduletypes "ob/x/zproofs/types"
 	"time"
 
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
@@ -85,7 +87,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-		{Account: dexmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
+		{Account: dexmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: zproofsmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -129,6 +131,7 @@ var (
 						// chain modules
 						obmoduletypes.ModuleName,
 						dexmoduletypes.ModuleName,
+						zproofsmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -139,6 +142,7 @@ var (
 						// chain modules
 						obmoduletypes.ModuleName,
 						dexmoduletypes.ModuleName,
+						zproofsmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -177,6 +181,7 @@ var (
 						// chain modules
 						obmoduletypes.ModuleName,
 						dexmoduletypes.ModuleName,
+						zproofsmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -280,6 +285,10 @@ var (
 			{
 				Name:   dexmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&dexmoduletypes.Module{}),
+			},
+			{
+				Name:   zproofsmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&zproofsmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
